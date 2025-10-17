@@ -1,18 +1,10 @@
-import {ProcAndPlay} from './helper/StrudelLogic.js'
-
-export function PreprocessorControls() {
+export function PreprocessorControls({p1Enabled, handleP1Toggle}) {
     return (
         <div className="col-md-4">
             <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onChange={ProcAndPlay} defaultChecked />
+                <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault1" onChange={handleP1Toggle} checked={p1Enabled}/>
                     <label className="form-check-label" htmlFor="flexRadioDefault1">
-                    <p>p1: ON</p>
-                </label>
-            </div>
-            <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onChange={ProcAndPlay} />
-                    <label className="form-check-label" htmlFor="flexRadioDefault2">
-                    <p>p1: HUSH</p>
+                    <p>p1 Enabled</p>
                 </label>
             </div>
         </div>

@@ -1,13 +1,10 @@
-export function AudioControls() {
+export function AudioControls({handlePlay, handleStop}) {
     return (
         <div className="col-md-4">
             <nav>
-                <button id="process" className="btn btn-outline-primary">Preprocess</button>
-                <button id="process_play" className="btn btn-outline-primary">Proc & Play</button>
-                <br />
-                <button id="play" className="btn btn-outline-primary">Play</button>
-                <button id="stop" className="btn btn-outline-primary">Stop</button>
-            </nav>
+                <button id="play" className="btn btn-outline-primary" onClick={handlePlay}>Play</button>
+                <button id="stop" className="btn btn-outline-primary" onClick={handleStop}>Stop</button>
+            </nav>  
         </div>
     );
 }
