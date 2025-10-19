@@ -51,27 +51,57 @@ button:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.control-group {
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-}
-
-.control-group button {
+.panel button {
   margin-right: 10px;
-  margin-bottom: 5px;
 }
 
-.form-label, .group-label {
+.group-label {
   font-weight: 600;
   margin-bottom: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.instrument-mixer {
+  background-color: #f8f9fa;
+  padding: 12px;
+}
+
+.instrument-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #808080;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 35px;
+  align-items: center;
+  gap: 8px;
+}
+
+.bpm-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+input[type="number"] {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
   font-size: 14px;
 }
 
 input[type="range"] {
   width: 100%;
-  margin: 10px 0;
+  cursor: pointer;
+  height: 12px;
+  background: #ddd;
+  border-radius: 3px;
 }
+
 input[type="checkbox"] {
   margin-right: 8px;
   cursor: pointer;

@@ -1,8 +1,9 @@
 import './cors-redirect';
 import './App.css';
 import { AudioControls } from './components/AudioControls';
-import { PreprocessorControls } from './components/PreprocessorControls';
+import { InstrumentControls } from './components/InstrumentControls';
 import { StrudelPlayer } from './components/StrudelPlayer';
+import { ProjectControls } from './components/ProjectControls';
 import { stranger_tune } from './tunes';
 import { useState, useRef, useEffect } from 'react';
 
@@ -40,50 +41,32 @@ export default function StrudelDemo() {
 
       <header>
         <h2>Strudel App</h2>
-        <nav>
-          <button>New Project</button>
-          <button>Save Project</button>
-          <button>Load Project</button>
-        </nav>
+        <ProjectControls />
       </header>
 
       <div className="main">
           {/*Left column for content. (text, REPL, d3 graph)*/}
           <div className="content">
             <div className="panel">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">Text to preprocess:</label>
-              <textarea className="form-control" rows="15" id="proc" value={strudelCode} onChange={event => setStrudelCode(event.target.value)} ></textarea>
+              <label htmlFor="exampleFormControlTextarea1" className="group-label">Text to preprocess:</label>
+              <textarea className="form-control" rows="15" id="proc" value={strudelCode} onChange={event => setStrudelCode(event.target.value)}></textarea>
             </div>
 
             <div className="panel">
-              <label className="form-label">Strudel REPL:</label>
+              <label className="group-label">Strudel REPL:</label>
               <StrudelPlayer strudelCode={processedCode} editorRef={editorRef}/>
             </div>
 
             <div className="panel">
-              <label className="form-label">D3 Visualizer</label>
+              <label className="group-label">D3 Visualizer</label>
             </div>
           </div>
 
           {/*Right column for controls. (instrument toggles, effects, etc)*/}
           <div className="controls">
-            <div className="control-group">
-              <label className="group-label">Master Controls</label> 
-              <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
-            </div>
-            <div className="control-group">
-              <label className="group-label">Instruments</label> 
-              <PreprocessorControls p1Enabled={p1Enabled} handleP1Toggle={handleP1Toggle} />
-            </div>
-            <div className="control-group">
-              <label className="group-label">Sliders</label>
-              <br/>
-              <input type="range"></input><br/>
-              <input type="range"></input><br/>
-              <input type="range"></input><br/>
-              
-            </div>
-            <div className="control-group">
+            <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
+            <InstrumentControls p1Enabled={p1Enabled} handleP1Toggle={handleP1Toggle} />
+            <div className="panel">
               <label className="group-label">Effects</label><br/>
               <input type="checkbox"></input>Example
             </div>
