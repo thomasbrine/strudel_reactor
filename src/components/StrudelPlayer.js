@@ -6,7 +6,7 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 export function StrudelPlayer({strudelCode, editorRef}) {
 
     const hasRun = useRef(false);
-
+    const editorDiv = useRef(null);
 
     useEffect(() => {
         if (!hasRun.current) {
@@ -18,7 +18,7 @@ export function StrudelPlayer({strudelCode, editorRef}) {
                 defaultOutput: webaudioOutput,
                 getTime: () => getAudioContext().currentTime,
                 transpiler,
-                root: document.getElementById('editor'),
+                root: editorDiv.current,
                 prebake: async () => {
                     initAudioOnFirstClick(); // needed to make the browser happy (don't await this here..)
                     const loadModules = evalScope(
@@ -44,8 +44,8 @@ export function StrudelPlayer({strudelCode, editorRef}) {
     }, [strudelCode])
 
     return (
-        <div className="col-md-8" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-            <div id="editor" />
+        <div>
+            <div ref={editorDiv}/>
         </div>
     );
 }
