@@ -4,7 +4,7 @@ import { AudioControls } from './components/AudioControls';
 import { InstrumentControls } from './components/InstrumentControls';
 import { StrudelPlayer } from './components/StrudelPlayer';
 import { ProjectControls } from './components/ProjectControls';
-import { stranger_tune } from './tunes';
+import { stranger_tune } from './utils/tunes';
 import { useState, useRef, useEffect } from 'react';
 
 export default function StrudelDemo() {
@@ -71,7 +71,7 @@ export default function StrudelDemo() {
               <input type="checkbox"></input>Example
             </div>
           </div>
-
+        <canvas id="roll"></canvas>
       </div>
     </div>
   );
