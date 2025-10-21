@@ -7,10 +7,8 @@ export function InstrumentControls({p1Enabled, handleP1Toggle}) {
             <div className="instruments-container">
                 <InstrumentMixer/>
                 <InstrumentMixer/>
-                <InstrumentMixer/>
-                <InstrumentMixer/>
-
             </div>
+            <button>Add New Instrument</button>
         </div>
     );
 }

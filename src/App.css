@@ -1,5 +1,5 @@
 .app {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -35,7 +35,7 @@ button:hover {
 
 .main {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: minmax(0, 2fr) 1fr;
   gap: 20px;
 }
 
@@ -47,7 +47,7 @@ button:hover {
 
 .panel {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -70,6 +70,13 @@ button:hover {
 .instrument-header {
   padding-bottom: 8px;
   border-bottom: 1px solid #808080;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.instrument-sliders {
+  padding-top: 8px;
 }
 
 .slider-row {
@@ -86,6 +93,18 @@ button:hover {
   margin-top: 10px;
 }
 
+.delete-instrument {
+  color: red;
+  border: 1px solid red;
+  padding: 2px 8px;
+}
+
+.delete-instrument:hover {
+  background-color: red;
+  color: #ffffff;
+
+}
+
 input[type="number"] {
   width: 70px;
   padding: 6px 8px;
@@ -99,7 +118,6 @@ input[type="range"] {
   cursor: pointer;
   height: 12px;
   background: #ddd;
-  border-radius: 3px;
 }
 
 input[type="checkbox"] {
