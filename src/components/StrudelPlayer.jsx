@@ -7,6 +7,7 @@ import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
+import { FaPlayCircle } from "react-icons/fa";
 
 
 export function StrudelPlayer({strudelCode, editorRef}) {
@@ -25,7 +26,7 @@ export function StrudelPlayer({strudelCode, editorRef}) {
             hasRun.current = true;
             const canvas = document.getElementById('roll');
             canvas.width = canvas.width * 2;
-            canvas.height = canvas.height * 2;
+            canvas.height = canvas.height * 2;  
             const drawContext = canvas.getContext('2d');
             const drawTime = [-2, 2];
             let strudelMirror = new StrudelMirror({
@@ -59,8 +60,13 @@ export function StrudelPlayer({strudelCode, editorRef}) {
     }, [strudelCode])
 
     return (
-        <div>
-            <div ref={editorDiv}/>
+        <div className="card">
+            <div className="card-header">
+                <h5 className="mb-0">Live Strudel REPL</h5>
+            </div>
+            <div className="card-body p-0">
+                <div ref={editorDiv}/>
+            </div>
         </div>
     );
 }

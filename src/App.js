@@ -40,58 +40,64 @@ export default function StrudelDemo() {
     <div className="app">
 
       {/*Header*/}
-      <header className="bg-white py-3 mb-4 shadow-sm">
+      <header className="bg-white shadow-sm">
         <div className="container-fluid">
-          <div className="d-flex justify-content-between align-items-center">
-            <h2 className="mb-0">Strudel App</h2>
+          <div className="d-flex justify-content-between align-items-center py-3">
+            <h2 className="mb-0 fw-bold">Strudel App</h2>
             <ProjectControls />
           </div>
         </div>
       </header>
 
-      <div className="container-fluid">
-        <div className="d-flex gap-3">
+      <div className="container-fluid py-4">
+        <div className="row g-4">
             {/*Left column for content. (text, REPL, d3 graph)*/}
-            <div className="d-flex flex-column gap-3" style={{flex: '2'}}>
-              <div className="card">
-                <div className="card-body">
-                  <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Text to preprocess:</label>
-                  <textarea className="form-control" rows="15" id="proc" value={strudelCode} onChange={event => setStrudelCode(event.target.value)}></textarea>
-                </div>
-              </div>
+            <div className="col-lg-8">
+              <div className="d-flex flex-column gap-4">
 
-              <div className="card">
-                <div className="card-body">
-                  <label className="form-label fw-bold">Strudel REPL:</label>
-                  <StrudelPlayer strudelCode={processedCode} editorRef={editorRef}/>
-                </div>
-              </div>
+                <div className="card">
+                  <div className="card-header">
+                    <h5 className="mb-0">Code Preprocessor</h5>
+                  </div>
 
-              <div className="card">
-                <div className="card-body">
-                  <label className="form-label fw-bold">D3 Visualizer</label>
+                  <div className="card-body">
+                    <textarea className="form-control" rows="15" id="proc" value={strudelCode} onChange={event => setStrudelCode(event.target.value)}/>
+                  </div>
                 </div>
+
+                <StrudelPlayer strudelCode={processedCode} editorRef={editorRef}/>
+
+                <div className="card">
+                  <div className="card-header">
+                    <h5 className="mb-0">D3 Visualizer</h5>
+                  </div>
+                  <div className="card-body"></div>
                 </div>
+
+              </div>
             </div>
 
             {/*Right column for controls. (instrument toggles, effects, etc)*/}
-            <div className="d-flex flex-column gap-3" style={{flex: '2'}}>
-              <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
-              <InstrumentControls p1Enabled={p1Enabled} handleP1Toggle={handleP1Toggle} />
-              <div className="card">
-                <div className="card-body">
-                  <label className="form-label fw-bold">Effects</label><br/>
-                  <input className="form-check-input" type="checkbox"/>
-                  <label className="form-check-label">Example</label>
+            <div className="col-lg-4">
+              <div className="d-flex flex-column gap-4">
+                <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
+                <InstrumentControls p1Enabled={p1Enabled} handleP1Toggle={handleP1Toggle} />
+
+                <div className="card">
+                  <div className="card-header">
+                    <h5 className="mb-0">Effects</h5>
+                  </div>
+                  <div className="card-body">
+                    <input className="form-check-input" type="checkbox"/>
+                    <label className="form-check-label">Example</label>
+                  </div>
                 </div>
               </div>
             </div>
-          <canvas id="roll"></canvas>
+            </div>
+            <canvas id="roll"></canvas>
         </div>
-    </div>
-  </div>
+        </div>
   );
-
-
 }
 
