@@ -1,9 +1,9 @@
 export function ProjectControls() {
     return (
-        <nav>
-            <button>New Project</button>
-            <button>Save Project</button>
-            <button>Load Project</button>
+        <nav className="d-flex gap-2">
+            <button className="btn btn-outline-primary">New Project</button>
+            <button className="btn btn-outline-primary">Save Project</button>
+            <button className="btn btn-outline-primary">Load Project</button>
         </nav>
     );
 }
