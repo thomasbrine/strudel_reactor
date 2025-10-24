@@ -13,6 +13,31 @@ export default function StrudelDemo() {
 
   const [strudelCode, setStrudelCode] = useState(mysong); // Use stranger things song as default
   const [p1Enabled, setP1Enabled] = useState(true);
+  const [instrumentValues, setInstrumentValues] = useState([])
+
+  function addInstrument() {
+    // Default instrument name based on number of instruments
+    const instrumentName = `Instrument${instrumentValues.length+1}`
+
+    // Create new instrument with volume as default effect
+    const newInstrument = {
+      name: instrumentName,
+      effects: [
+        { name: "Volume", value: 100}
+      ]
+    };
+    setInstrumentValues(previousValues => [...previousValues, newInstrument])
+  }
+
+  function removeInstrument(instrumentName) {
+    setInstrumentValues(previousValues => 
+      previousValues.filter(instrument => instrument.name !== instrumentName)
+    );
+  }
+
+  function processCode() {
+    
+  }
 
   let processedCode = strudelCode.replaceAll("<p1_Radio>", p1Enabled ? "" : "_");
 
@@ -81,7 +106,7 @@ export default function StrudelDemo() {
             <div className="col-lg-4">
               <div className="d-flex flex-column gap-4">
                 <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
-                <InstrumentControls p1Enabled={p1Enabled} handleP1Toggle={handleP1Toggle} />
+                <InstrumentControls instrumentValues={instrumentValues} addInstrument={addInstrument} removeInstrument={removeInstrument}/>
 
                 <div className="card">
                   <div className="card-header">
