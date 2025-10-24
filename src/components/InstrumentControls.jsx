@@ -1,7 +1,7 @@
 import { InstrumentMixer } from "./InstrumentMixer";
 import { MdAddCircleOutline } from "react-icons/md";
 
-export function InstrumentControls({instrumentValues, addInstrument, removeInstrument}) {
+export function InstrumentControls({instrumentValues, addInstrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName}) {
 
     function handleAddInstrument() {
         addInstrument();
@@ -17,9 +17,14 @@ export function InstrumentControls({instrumentValues, addInstrument, removeInstr
                     {/* Create mixer for every instrument stored */}
                     {instrumentValues.map((instrument) => ( 
                         <InstrumentMixer
-                        key={instrument.name}
+                        key={instrument.id}
                         instrument={instrument}
-                        removeInstrument={removeInstrument}/>
+                        removeInstrument={removeInstrument}
+                        addInstrumentEffect={addInstrumentEffect}
+                        updateInstrumentEffectValue={updateInstrumentEffectValue}
+                        changeInstrumentName={changeInstrumentName}
+                        changeEffectName={changeEffectName}
+                        />
                     ))}
                 </div>
                 <div>
@@ -28,11 +33,6 @@ export function InstrumentControls({instrumentValues, addInstrument, removeInstr
                         onClick={handleAddInstrument}>
                         <MdAddCircleOutline className="me-1"/>Instrument Mixer Channel
                     </button>
-                    {/* <div className="row">
-                        <label class="form-label">Instrument Name</label>
-                        <input className="form-control col" type="text"/>
-                        <button className="btn btn-success btn-sm col">Confirm</button>
-                    </div> */}
                 </div>
             </div>
         </div>

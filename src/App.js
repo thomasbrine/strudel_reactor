@@ -12,34 +12,98 @@ export default function StrudelDemo() {
   let editorRef = useRef();
 
   const [strudelCode, setStrudelCode] = useState(mysong); // Use stranger things song as default
-  const [p1Enabled, setP1Enabled] = useState(true);
   const [instrumentValues, setInstrumentValues] = useState([])
 
+  // Adds a new instrument with default values
   function addInstrument() {
     // Default instrument name based on number of instruments
     const instrumentName = `Instrument${instrumentValues.length+1}`
 
     // Create new instrument with volume as default effect
     const newInstrument = {
+      id: crypto.randomUUID(),
       name: instrumentName,
       effects: [
-        { name: "Volume", value: 100}
+        { id: crypto.randomUUID(), name: "Volume", value: 100}
       ]
     };
     setInstrumentValues(previousValues => [...previousValues, newInstrument])
   }
 
-  function removeInstrument(instrumentName) {
+  // Remove instrument that has the specified id
+  function removeInstrument(id) {
     setInstrumentValues(previousValues => 
-      previousValues.filter(instrument => instrument.name !== instrumentName)
+      previousValues.filter(instrument => instrument.id !== id)
     );
   }
 
-  function processCode() {
-    
+  // Change the name of the instrument with the specified id
+  function changeInstrumentName(id, newName) {
+    setInstrumentValues(previousValues => 
+      previousValues.map(instrument => 
+        instrument.id === id ? {...instrument, name: newName} : instrument
+      )
+    );
   }
 
-  let processedCode = strudelCode.replaceAll("<p1_Radio>", p1Enabled ? "" : "_");
+  // Change the name of the effect with the specified id
+  function changeEffectName(instrumentId, effectId, newName) {
+    setInstrumentValues(previousValues => 
+      previousValues.map(instrument => {
+        if (instrument.id !== instrumentId) return instrument;
+
+      const updatedEffects = instrument.effects.map(effect =>
+          effect.id === effectId ? { ...effect, name: newName } : effect
+        );
+        
+        return {...instrument, effects: updatedEffects };
+      })
+    );
+  }
+
+  // Adds a new effect to the specified instrument
+  function addInstrumentEffect(id) {
+    const newEffect = {
+      id: crypto.randomUUID(),
+      name: "Effect",
+      value: 0
+    };
+
+    setInstrumentValues(previousValues => (
+      previousValues.map(instrument => {
+        if (instrument.id !== id) {
+          return instrument // not the instrument
+        }
+        return {
+          ...instrument,
+          effects: [...instrument.effects, newEffect]
+        }
+      })
+    ))
+  }
+
+  // Updates the value of the specifed effect on the specified instrument
+  function updateInstrumentEffectValue(instrumentId, effectId, newValue) {
+    setInstrumentValues(previousValues =>
+      previousValues.map(instrument => {
+        if (instrument.id !== instrumentId) return instrument;
+
+        // Update the matching effect’s value
+        const updatedEffects = instrument.effects.map(effect =>
+          effect.id === effectId ? { ...effect, value: newValue } : effect
+        );
+
+        return { ...instrument, effects: updatedEffects };
+      })
+    );
+  }
+
+
+  function processCode() {
+    return strudelCode;
+  }
+
+  let processedCode = processCode();
 
   function handlePlay() {
     editorRef.current.evaluate();
@@ -49,10 +113,7 @@ export default function StrudelDemo() {
     editorRef.current.stop();
   }
 
-  function handleP1Toggle() {
-    setP1Enabled(!p1Enabled);
-  }
-
+  // Automatically re-run when processed code changes and the strudel repl is playing
   useEffect(() => { 
     if (editorRef.current && editorRef.current.repl.state.started) {
       editorRef.current.setCode(processedCode);
@@ -106,17 +167,15 @@ export default function StrudelDemo() {
             <div className="col-lg-4">
               <div className="d-flex flex-column gap-4">
                 <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
-                <InstrumentControls instrumentValues={instrumentValues} addInstrument={addInstrument} removeInstrument={removeInstrument}/>
-
-                <div className="card">
-                  <div className="card-header">
-                    <h5 className="mb-0">Effects</h5>
-                  </div>
-                  <div className="card-body">
-                    <input className="form-check-input" type="checkbox"/>
-                    <label className="form-check-label">Example</label>
-                  </div>
-                </div>
+                <InstrumentControls
+                  instrumentValues={instrumentValues}
+                  addInstrument={addInstrument}
+                  removeInstrument={removeInstrument}
+                  addInstrumentEffect={addInstrumentEffect}
+                  updateInstrumentEffectValue={updateInstrumentEffectValue}
+                  changeInstrumentName={changeInstrumentName}
+                  changeEffectName={changeEffectName}
+                />
               </div>
             </div>
             </div>
