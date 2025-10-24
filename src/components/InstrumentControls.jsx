@@ -1,7 +1,7 @@
 import { InstrumentMixer } from "./InstrumentMixer";
 import { MdAddCircleOutline } from "react-icons/md";
 
-export function InstrumentControls({instrumentValues, addInstrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName}) {
+export function InstrumentControls({instrumentValues, addInstrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument}) {
 
     function handleAddInstrument() {
         addInstrument();
@@ -24,6 +24,7 @@ export function InstrumentControls({instrumentValues, addInstrument, removeInstr
                         updateInstrumentEffectValue={updateInstrumentEffectValue}
                         changeInstrumentName={changeInstrumentName}
                         changeEffectName={changeEffectName}
+                        toggleInstrument={toggleInstrument}
                         />
                     ))}
                 </div>

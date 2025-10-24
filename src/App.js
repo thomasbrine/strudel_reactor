@@ -11,7 +11,7 @@ export default function StrudelDemo() {
 
   let editorRef = useRef();
 
-  const [strudelCode, setStrudelCode] = useState(mysong); // Use stranger things song as default
+  const [strudelCode, setStrudelCode] = useState(stranger_tune); // Use stranger things song as default
   const [instrumentValues, setInstrumentValues] = useState([])
 
   // Adds a new instrument with default values
@@ -23,6 +23,7 @@ export default function StrudelDemo() {
     const newInstrument = {
       id: crypto.randomUUID(),
       name: instrumentName,
+      enabled: true,
       effects: [
         { id: crypto.randomUUID(), name: "Volume", value: 100}
       ]
@@ -52,13 +53,21 @@ export default function StrudelDemo() {
       previousValues.map(instrument => {
         if (instrument.id !== instrumentId) return instrument;
 
-      const updatedEffects = instrument.effects.map(effect =>
+        const updatedEffects = instrument.effects.map(effect =>
           effect.id === effectId ? { ...effect, name: newName } : effect
         );
         
         return {...instrument, effects: updatedEffects };
       })
     );
+  }
+
+  function toggleInstrument(id) {
+    setInstrumentValues(previousValues =>
+      previousValues.map(instrument => 
+        instrument.id === id ? {...instrument, enabled: !instrument.enabled} : instrument
+      )
+    )
   }
 
   // Adds a new effect to the specified instrument
@@ -98,9 +107,15 @@ export default function StrudelDemo() {
     );
   }
 
-
   function processCode() {
-    return strudelCode;
+
+    let code = strudelCode;
+
+    instrumentValues.forEach(instrument => {
+      code = code.replaceAll(instrument.name, instrument.enabled ? (instrument.name) : ("_" + instrument.name));
+    })  
+
+    return code;   
   }
 
   let processedCode = processCode();
@@ -175,6 +190,7 @@ export default function StrudelDemo() {
                   updateInstrumentEffectValue={updateInstrumentEffectValue}
                   changeInstrumentName={changeInstrumentName}
                   changeEffectName={changeEffectName}
+                  toggleInstrument={toggleInstrument}
                 />
               </div>
             </div>

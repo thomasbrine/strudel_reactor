@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdArrowDropDown, MdArrowRight, MdClose, MdAdd } from "react-icons/md";
 
-export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName}) {
+export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument}) {
 
     const [showSliders, setShowSliders] = useState(false);
 
@@ -19,14 +19,27 @@ export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffe
         updateInstrumentEffectValue(instrument.id, id, newValue);
     }
 
+    function handleToggle() {
+        toggleInstrument(instrument.id)
+    }
+
     return (
-        <div className="border rounded">
+        <div className="border rounded" style={{opacity: instrument.enabled ? 1 : 0.5}}>
             {/* Instrument Header */}
             <div className="d-flex justify-content-between align-items-center border-bottom p-2"
                 onClick={() => setShowSliders(!showSliders)}
                 style={{cursor: 'pointer'}}>
                 <div className="d-flex align-items-center gap-2 justify-content-center">
-                    {showSliders ? <MdArrowDropDown /> : <MdArrowRight />} 
+                    
+                    <input 
+                        type="checkbox"
+                        className="form-check-input m-0"
+                        checked={instrument.enabled}
+                        onChange={handleToggle}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+
+                    {showSliders ? <MdArrowDropDown size="30"/> : <MdArrowRight size="30"/>} 
                     <input
                         type="text"
                         className="form-control"
