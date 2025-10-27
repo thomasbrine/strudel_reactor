@@ -19,13 +19,13 @@ export default function StrudelDemo() {
     // Default instrument name based on number of instruments
     const instrumentName = `Instrument${instrumentValues.length+1}`
 
-    // Create new instrument with volume as default effect
+    // Create new instrument with gain as default effect
     const newInstrument = {
       id: crypto.randomUUID(),
       name: instrumentName,
       enabled: true,
       effects: [
-        { id: crypto.randomUUID(), name: "Volume", value: 100}
+        { id: crypto.randomUUID(), name: "gain", value: 1}
       ]
     };
     setInstrumentValues(previousValues => [...previousValues, newInstrument])
@@ -81,9 +81,11 @@ export default function StrudelDemo() {
     setInstrumentValues(previousValues => (
       previousValues.map(instrument => {
         if (instrument.id !== id) {
-          return instrument // not the instrument
+          // Not the instrument, do nothing
+          return instrument 
         }
         return {
+          // Found the instrument, add new effect
           ...instrument,
           effects: [...instrument.effects, newEffect]
         }
@@ -107,16 +109,28 @@ export default function StrudelDemo() {
     );
   }
 
+  // Process strudel code based on the values in instrumentValues
   function processCode() {
 
     let code = strudelCode;
 
     instrumentValues.forEach(instrument => {
-      code = code.replaceAll(instrument.name, instrument.enabled ? (instrument.name) : ("_" + instrument.name));
-    })  
+      code = code.replaceAll(`${instrument.name}:`, instrument.enabled ? `${instrument.name}:` : `_${instrument.name}:`);
 
-    return code;   
+      let effectsString = "";
+
+      instrument.effects.forEach(effect => {
+        effectsString += `.${effect.name}(${effect.value})`;
+      })  
+
+      code = code.replaceAll(`{${instrument.name}_effects}`, effectsString);
+
+    });
+
+    return code;
   }
+
+
 
   let processedCode = processCode();
 
@@ -144,7 +158,7 @@ export default function StrudelDemo() {
       <header className="bg-white shadow-sm">
         <div className="container-fluid">
           <div className="d-flex justify-content-between align-items-center py-3">
-            <h2 className="mb-0 fw-bold">Strudel App</h2>
+            <h2 className="mb-0 fw-bold">Strudel Mixer</h2>
             <ProjectControls />
           </div>
         </div>

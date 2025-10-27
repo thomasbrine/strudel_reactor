@@ -71,7 +71,8 @@ export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffe
                     <input className="form-range" 
                         type="range" 
                         min="0" 
-                        max="100" 
+                        max="1"
+                        step="0.05" 
                         value={effect.value} 
                         onChange={(event) => handleEffectChange(effect.id, event.target.value)}
                     />

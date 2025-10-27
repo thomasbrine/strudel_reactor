@@ -7,7 +7,6 @@ import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
-import { FaPlayCircle } from "react-icons/fa";
 
 
 export function StrudelPlayer({strudelCode, editorRef}) {
