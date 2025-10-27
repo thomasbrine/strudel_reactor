@@ -1,8 +1,8 @@
 import { InstrumentMixer } from "./InstrumentMixer";
-import { MdAddCircleOutline, MdHelp } from "react-icons/md";
+import { MdAddCircleOutline, MdHelp, MdQueueMusic } from "react-icons/md";
 import { useState } from 'react';
 
-export function InstrumentControls({instrumentValues, addInstrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument}) {
+export function InstrumentControls({instrumentValues, addInstrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument, removeInstrumentEffect}) {
 
     const [showHelp, setShowHelp] = useState(false);
 
@@ -17,7 +17,7 @@ export function InstrumentControls({instrumentValues, addInstrument, removeInstr
     return (
         <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
-                <h5 className="mb-0">Instrument Channels</h5>
+                <h5 className="mb-0 d-flex align-items-center"><MdQueueMusic className="me-2"/>Instrument Channels</h5>
                 <button className="btn btn-sm d-flex align-items-center" onClick={handleShowHelp}><MdHelp size="20"/></button>
             </div>
 
@@ -53,6 +53,7 @@ export function InstrumentControls({instrumentValues, addInstrument, removeInstr
                         changeInstrumentName={changeInstrumentName}
                         changeEffectName={changeEffectName}
                         toggleInstrument={toggleInstrument}
+                        removeInstrumentEffect={removeInstrumentEffect}
                         />
                     ))}
                 </div>

@@ -7,6 +7,7 @@ import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
+import { MdTerminal } from "react-icons/md";
 
 
 export function StrudelPlayer({strudelCode, editorRef}) {
@@ -61,9 +62,9 @@ export function StrudelPlayer({strudelCode, editorRef}) {
     return (
         <div className="card">
             <div className="card-header">
-                <h5 className="mb-0">Live Strudel REPL</h5>
+                <h5 className="mb-0 d-flex align-items-center"><MdTerminal className="me-2"/>Live Strudel REPL</h5>
             </div>
-            <div className="card-body p-0">
+            <div className="card-body p-0" style={{maxHeight: '400px', overflowY: 'auto'}}>
                 <div ref={editorDiv}/>
             </div>
         </div>

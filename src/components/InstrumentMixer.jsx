@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdArrowDropDown, MdArrowRight, MdClose, MdAdd } from "react-icons/md";
 
-export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument}) {
+export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffect, updateInstrumentEffectValue, changeInstrumentName, changeEffectName, toggleInstrument, removeInstrumentEffect}) {
 
     const [showSliders, setShowSliders] = useState(false);
 
@@ -21,6 +21,11 @@ export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffe
 
     function handleToggle() {
         toggleInstrument(instrument.id)
+    }
+
+    function handleDeleteEffect(event, effectId) {
+        event.stopPropagation();
+        removeInstrumentEffect(instrument.id, effectId);
     }
 
     return (
@@ -74,9 +79,13 @@ export function InstrumentMixer({instrument, removeInstrument, addInstrumentEffe
                         max="1"
                         step="0.05" 
                         value={effect.value} 
-                        onChange={(event) => handleEffectChange(effect.id, event.target.value)}
+                        onChange={(e) => handleEffectChange(effect.id, e.target.value)}
                     />
                     <span className="badge bg-secondary" style={{minWidth: '40px'}}>{effect.value}</span>
+                    <button
+                        className="btn btn-close btn-sm d-flex align-items-center"
+                        onClick={(e) => handleDeleteEffect(e, effect.id)}>
+                    </button>
                 </div>
                 ))}
 

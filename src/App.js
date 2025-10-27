@@ -3,7 +3,8 @@ import './App.css';
 import { AudioControls } from './components/AudioControls';
 import { InstrumentControls } from './components/InstrumentControls';
 import { StrudelPlayer } from './components/StrudelPlayer';
-import { ProjectControls } from './components/ProjectControls';
+import { CodePreprocessor } from './components/CodePreprocessor';
+import { Header } from './components/Header';
 import { stranger_tune, mysong } from './utils/tunes';
 import { useState, useRef, useEffect } from 'react';
 
@@ -13,11 +14,12 @@ export default function StrudelDemo() {
 
   const [strudelCode, setStrudelCode] = useState(stranger_tune); // Use stranger things song as default
   const [instrumentValues, setInstrumentValues] = useState([])
+  const [cpm, setCpm] = useState(120);
 
   // Adds a new instrument with default values
   function addInstrument() {
     // Default instrument name based on number of instruments
-    const instrumentName = `Instrument${instrumentValues.length+1}`
+    const instrumentName = `instrument${instrumentValues.length+1}`
 
     // Create new instrument with gain as default effect
     const newInstrument = {
@@ -74,7 +76,7 @@ export default function StrudelDemo() {
   function addInstrumentEffect(id) {
     const newEffect = {
       id: crypto.randomUUID(),
-      name: "Effect",
+      name: "effect",
       value: 0
     };
 
@@ -91,6 +93,25 @@ export default function StrudelDemo() {
         }
       })
     ))
+  }
+
+  // Removes the specified effect from the instrument.
+  function removeInstrumentEffect(instrumentId, effectId) {
+    setInstrumentValues(previousValues => (
+      previousValues.map(instrument => {
+        // Not the instrument, do nothing
+        if (instrument.id !== instrumentId) {
+          return instrument;
+        }
+
+        return {
+          // Found the instrument, remove the effect
+          ...instrument,
+          effects: instrument.effects.filter(effect => effect.id !== effectId)
+        }
+      })
+    )
+    );
   }
 
   // Updates the value of the specifed effect on the specified instrument
@@ -114,11 +135,16 @@ export default function StrudelDemo() {
 
     let code = strudelCode;
 
+    // Set the tempo (cpm)
+    code = code.replace(/setcpm\(.*?\)/, `setcpm(${cpm})`)
+
+    // Loop through each instrument saved in the controls
     instrumentValues.forEach(instrument => {
+      // Check if instrument enabled or disabled
       code = code.replaceAll(`${instrument.name}:`, instrument.enabled ? `${instrument.name}:` : `_${instrument.name}:`);
 
+      // Build effects string by looping through all intstrument effect names and values
       let effectsString = "";
-
       instrument.effects.forEach(effect => {
         effectsString += `.${effect.name}(${effect.value})`;
       })  
@@ -129,8 +155,6 @@ export default function StrudelDemo() {
 
     return code;
   }
-
-
 
   let processedCode = processCode();
 
@@ -154,32 +178,14 @@ export default function StrudelDemo() {
   return (
     <div className="app">
 
-      {/*Header*/}
-      <header className="bg-white shadow-sm">
-        <div className="container-fluid">
-          <div className="d-flex justify-content-between align-items-center py-3">
-            <h2 className="mb-0 fw-bold">Strudel Mixer</h2>
-            <ProjectControls />
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <div className="container-fluid py-4">
         <div className="row g-4">
             {/*Left column for content. (text, REPL, d3 graph)*/}
             <div className="col-lg-8">
               <div className="d-flex flex-column gap-4">
-
-                <div className="card">
-                  <div className="card-header">
-                    <h5 className="mb-0">Code Preprocessor</h5>
-                  </div>
-
-                  <div className="card-body">
-                    <textarea className="form-control" rows="15" id="proc" value={strudelCode} onChange={event => setStrudelCode(event.target.value)}/>
-                  </div>
-                </div>
-
+                <CodePreprocessor strudelCode={strudelCode} setStrudelCode={setStrudelCode}/>
                 <StrudelPlayer strudelCode={processedCode} editorRef={editorRef}/>
 
                 <div className="card">
@@ -195,7 +201,7 @@ export default function StrudelDemo() {
             {/*Right column for controls. (instrument toggles, effects, etc)*/}
             <div className="col-lg-4">
               <div className="d-flex flex-column gap-4">
-                <AudioControls handlePlay={handlePlay} handleStop={handleStop} />
+                <AudioControls handlePlay={handlePlay} handleStop={handleStop} cpm={cpm} setCpm={setCpm}/>
                 <InstrumentControls
                   instrumentValues={instrumentValues}
                   addInstrument={addInstrument}
@@ -205,6 +211,7 @@ export default function StrudelDemo() {
                   changeInstrumentName={changeInstrumentName}
                   changeEffectName={changeEffectName}
                   toggleInstrument={toggleInstrument}
+                  removeInstrumentEffect={removeInstrumentEffect}
                 />
               </div>
             </div>
