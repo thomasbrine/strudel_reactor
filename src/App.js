@@ -166,6 +166,62 @@ export default function StrudelDemo() {
     editorRef.current.stop();
   }
 
+  // Save project data (studel code, cpm value, instrument values)
+  // in JSON format and convert to string
+  function getProjectDataString() {
+    const projectData = {
+      strudelCode: strudelCode,
+      cpm: cpm,
+      instrumentValues: instrumentValues
+    };
+
+    const jsonString = JSON.stringify(projectData);
+
+    return jsonString;
+  }
+
+  // function saveProjectFile() {
+    
+  //   const jsonString = getProjectDataString();
+
+  //   // Save json data as a file (as a backup):
+  //   // Create blob url from json string
+  //   const blob = new Blob([jsonString]);
+  //   const blobUrl = URL.createObjectURL(blob);
+
+  //   // Create and trigger click to download the json data
+  //   const a = document.createElement('a');
+  //   a.href = blobUrl;
+  //   a.download = 'projectData.json';
+  //   document.body.appendChild(a);
+  //   a.click();
+
+  //   // Remove the temp download elements
+  //   document.body.removeChild(a);
+  //   URL.revokeObjectURL(blobUrl);
+  // }
+
+  // Save project data to local storage
+  function saveProject() {
+    const jsonString = getProjectDataString();
+
+    localStorage.setItem('projectData', jsonString);
+  }
+
+  // Load project data from local storage
+  function loadProject() {
+    const storedString = localStorage.getItem('projectData');
+
+    if (storedString) {
+      const projectData = JSON.parse(storedString);
+      
+      setStrudelCode(projectData.strudelCode);
+      setCpm(projectData.cpm);
+      setInstrumentValues(projectData.instrumentValues);
+    }
+  }
+
+
   // Automatically re-run when processed code changes and the strudel repl is playing
   useEffect(() => { 
     if (editorRef.current && editorRef.current.repl.state.started) {
@@ -178,13 +234,14 @@ export default function StrudelDemo() {
   return (
     <div className="app">
 
-      <Header />
+      <Header saveProject={saveProject} loadProject={loadProject}/>
 
       <div className="container-fluid py-4">
         <div className="row g-4">
             {/*Left column for content. (text, REPL, d3 graph)*/}
             <div className="col-lg-8">
               <div className="d-flex flex-column gap-4">
+
                 <CodePreprocessor strudelCode={strudelCode} setStrudelCode={setStrudelCode}/>
                 <StrudelPlayer strudelCode={processedCode} editorRef={editorRef}/>
 

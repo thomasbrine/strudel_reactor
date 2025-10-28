@@ -1,4 +1,4 @@
-export const stranger_tune = `setcps(140/60/4)
+export const stranger_tune = `setcpm(35)
 
 samples('github:algorave-dave/samples')
 samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
@@ -57,6 +57,7 @@ note(pick(arpeggiator1, "<0 1 2 3>/2"))
 .room(0.6)
 .lpenv(3.3)
 .postgain(pick(gain_patterns, pattern))
+{main_arp_effects}
 
 
 drums:
@@ -97,20 +98,5 @@ stack(
 // all(x => x.gain(mouseX.range(0,1)))
 // all(x => x.log())
 
-// @version 1.2`;
-
-export const mysong = `
-samples('https://raw.githubusercontent.com/tidalcycles/Dirt-Samples/master/strudel.json')
-samples('https://raw.githubusercontent.com/Mittans/tidal-drum-machines/main/machines/tidal-drum-machines.json')
-
-setcpm(90)
-kick: s("<bd ~ [bd bd] ~ bd ~ [bd bd] ~>")
-.bank("RolandTR808")
-clap: s("<~ cp ~ cp ~ cp ~ [cp cp]>")
-  .bank("RolandTR808")
-  .room(0.3)
-hh: s("<[hh hh] [hh hh] [hh hh] hh [hh hh hh hh]>")
-
-synth: note("<g3 b3 g3 a3>")
-.s("sine")
+// @version 1.2
 `

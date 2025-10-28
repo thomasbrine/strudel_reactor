@@ -1,6 +1,7 @@
-import { MdSave, MdFolderOpen, MdFolder } from "react-icons/md";
+import { MdSave, MdFolderOpen } from "react-icons/md";
 
-export function Header() {
+export function Header({saveProject, loadProject}) {
+
     return (
         <header className="bg-white shadow-sm">
             <div className="container-fluid">
@@ -9,10 +10,10 @@ export function Header() {
 
                     {/* Project controls (json handling) */}
                     <div className="d-flex gap-2">
-                        <button className="btn btn-outline-success d-flex align-items-center">
+                        <button className="btn btn-outline-success d-flex align-items-center" onClick={saveProject}>
                             <MdSave className="me-1"/>Save Project
                         </button>
-                        <button className="btn btn-outline-primary d-flex align-items-center">
+                        <button className="btn btn-outline-primary d-flex align-items-center" onClick={loadProject}>
                             <MdFolderOpen className="me-1"/>Load Project
                         </button>
                     </div>
