@@ -70,13 +70,8 @@ export function StrudelPlayer({strudelCode, editorRef}) {
     }, [strudelCode])
 
     return (
-        <div className="card">
-            <div className="card-header">
-                <h5 className="mb-0 d-flex align-items-center"><MdTerminal className="me-2"/>Live Strudel REPL</h5>
-            </div>
-            <div className="card-body p-0" style={{maxHeight: '400px', overflowY: 'auto'}}>
-                <div ref={editorDiv}/>
-            </div>
+        <div style={{minHeight: '600px', maxHeight: '600px', overflowY: 'auto'}}>
+            <div className="bg-dark" ref={editorDiv}/>
         </div>
     );
 }
