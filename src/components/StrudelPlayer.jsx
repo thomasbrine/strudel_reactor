@@ -9,26 +9,35 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
 import { MdTerminal } from "react-icons/md";
 
-
+/**
+ * Strudel REPL player component
+ * Initializes and manages the live strudel environment
+ */
 export function StrudelPlayer({strudelCode, editorRef}) {
 
     const handleD3Data = (event) => {
         console.log(event.detail);
     };
 
+    // Track if initialization has run (only run once)
     const hasRun = useRef(false);
+
+    // Reference to the editor container div
     const editorDiv = useRef(null);
 
+    // Initialize Strudel REPL (runs once)
     useEffect(() => {
         if (!hasRun.current) {
             document.addEventListener("d3Data", handleD3Data);
             console_monkey_patch();
             hasRun.current = true;
+
             const canvas = document.getElementById('roll');
             canvas.width = canvas.width * 2;
-            canvas.height = canvas.height * 2;  
+            canvas.height = canvas.height * 2;
             const drawContext = canvas.getContext('2d');
             const drawTime = [-2, 2];
+
             let strudelMirror = new StrudelMirror({
                 defaultOutput: webaudioOutput,
                 getTime: () => getAudioContext().currentTime,
@@ -53,6 +62,7 @@ export function StrudelPlayer({strudelCode, editorRef}) {
         }
     }, []);
 
+    // Update the REPL code when the strudelCode changes
     useEffect(() => {
         if (editorRef.current) {
             editorRef.current.setCode(strudelCode);

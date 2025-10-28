@@ -1,5 +1,9 @@
 import { MdSettingsApplications } from "react-icons/md";
 
+/**
+ * Code preprocessor component for editing raw Strudel code
+ * This code gets processed before being sent to the REPL
+ */
 export function CodePreprocessor({strudelCode, setStrudelCode}) {
     return (
         <div className="card">

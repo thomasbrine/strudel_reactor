@@ -1,5 +1,8 @@
 import { MdSave, MdFolderOpen } from "react-icons/md";
 
+/**
+ * Header component with app title and project save/load controls
+ */
 export function Header({saveProject, loadProject}) {
 
     return (
