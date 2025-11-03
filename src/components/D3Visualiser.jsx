@@ -10,31 +10,39 @@ export function D3Visualiser() {
     // Store effect values that are extracted from strudel logs
     const [EffectValuesForD3, setEffectValuesForD3] = useState([]);
 
+    // Selected effect value to be graphed
+    const [selectedEffect, setSelectedEffect] = useState("gain");
+
+    // Store the raw strudel log data
+    const [logData, setLogData] = useState([]);
+
     // Reference to the SVG element
     const svgRef = useRef(null);
 
-    // Subscribe to d3Data events and extract effect values
+    // Subscribe to d3Data events and save strudel logs to logData
     useEffect(() => {
+        const handleLogData = (event) => {
+            setLogData(event.detail);
+        }
 
-        const handleD3 = (event) => {
-            let d3Data = event.detail;
-
-            // Extract effect values
-            const gain = d3Data.map(item => {
-                const match = item.match(/\sgain:([\d.]+)/);
-                return match ? parseFloat(match[1]) : 0;
-            });
-
-            setEffectValuesForD3(gain);
-        };
-
-        subscribe("d3Data", handleD3);
+        subscribe("d3Data", handleLogData);
 
         // Unsubscribe when component is removed
         return () => {
-            unsubscribe("d3Data", handleD3);
+            unsubscribe("d3Data", handleLogData);
         }
     }, [])
+
+    // Extract effect values whenever the log data updates
+    useEffect(() => {
+        const effectValues = logData.map(item => {
+            let regex = `\\s${selectedEffect}:([\\d.]+)`
+            const match = item.match(new RegExp(regex));
+            return match ? parseFloat(match[1]) : 0;
+        });
+
+        setEffectValuesForD3(effectValues);
+    }, [logData, selectedEffect])
 
     // Render the D3 line chart whenever data updates
     useEffect(() => {
@@ -79,8 +87,13 @@ export function D3Visualiser() {
 
     return (
         <div className="card">
-            <div className="card-header">
+            <div className="card-header d-flex justify-content-between">
                 <h5 className="mb-0">D3 Visualizer</h5>
+                <select value={selectedEffect} onChange={(e) => setSelectedEffect(e.target.value)}>
+                    <option value="gain">Gain</option>
+                    <option value="room">Room</option>
+                    <option value="cutoff">Cutoff (lpf)</option>
+                </select>
             </div>
             <div className="card-body">
                 <svg ref={svgRef} width="100%" height="300px"></svg>
