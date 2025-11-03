@@ -38,7 +38,8 @@ export function InstrumentControls({ instruments }) {
                             <li>Instrument names must match those in your code, e.g. <code>drums</code>.</li>
                             <li>Effect names must match effects available in the Strudel syntax, e.g. <code>gain</code>.</li>
                                 You can see which effects are available <a href="https://strudel.cc/learn/effects/">here</a>.
-                            <li>Add placeholders for effects at the end of each instrument in the pre-processor code, using syntax: <code>{'{instrumentname_effects}'}</code>.</li>
+                            <li>Add placeholders for effects at the end of each instrument in the pre-processor code, using syntax:
+                                <code>{'{instrumentname_effects}'}</code>. e.g. <code>{'{drums_effects}'}</code></li>
                         </ul>
                     </div>
                 )}

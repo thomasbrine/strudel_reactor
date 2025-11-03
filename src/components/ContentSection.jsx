@@ -2,6 +2,7 @@ import { CodePreprocessor } from "./CodePreprocessor";
 import { StrudelPlayer } from "./StrudelPlayer";
 import { useState } from "react";
 import { MdSettingsApplications, MdTerminal } from "react-icons/md";
+import { D3Visualiser } from "./D3Visualiser";
 
 /**
  * Left column is for the content section.
@@ -48,13 +49,7 @@ export function ContentSection({strudelCode, setStrudelCode, processedCode, edit
             </div>
 
             {/* Placeholder for the D3 visualizer */}
-            <div className="card">
-                <div className="card-header">
-                <h5 className="mb-0">D3 Visualizer</h5>
-                </div>
-                <div className="card-body"></div>
-            </div>
-
+            <D3Visualiser />
             </div>
         </div>
     )

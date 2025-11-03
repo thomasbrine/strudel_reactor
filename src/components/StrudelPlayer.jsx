@@ -15,10 +15,6 @@ import { MdTerminal } from "react-icons/md";
  */
 export function StrudelPlayer({strudelCode, editorRef}) {
 
-    const handleD3Data = (event) => {
-        console.log(event.detail);
-    };
-
     // Track if initialization has run (only run once)
     const hasRun = useRef(false);
 
@@ -28,7 +24,6 @@ export function StrudelPlayer({strudelCode, editorRef}) {
     // Initialize Strudel REPL (runs once)
     useEffect(() => {
         if (!hasRun.current) {
-            document.addEventListener("d3Data", handleD3Data);
             console_monkey_patch();
             hasRun.current = true;
 
