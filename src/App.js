@@ -2,7 +2,7 @@ import './cors-redirect';
 import './App.css';
 import { useInstruments } from './utils/useInstruments';
 import { Header } from './components/Header';
-import { stranger_tune, mysong } from './utils/tunes';
+import { defaultState } from './utils/defaults';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { ControlsSection } from './components/ControlsSection';
 import { ContentSection } from './components/ContentSection';
@@ -13,12 +13,19 @@ export default function StrudelDemo() {
   let editorRef = useRef();
 
   // Strudel code to be preprocessed and played
-  const [strudelCode, setStrudelCode] = useState(stranger_tune);
+  const [strudelCode, setStrudelCode] = useState("");
   // Cycles per minute (tempo)
   const [cpm, setCpm] = useState(120);
 
   // Used to manage instrument state (values, effects, toggles)
   const instruments = useInstruments();
+
+  // Load default state on first load
+  useEffect(() => {
+    setStrudelCode(defaultState.strudelCode);
+    setCpm(defaultState.cpm);
+    instruments.setInstrumentValues(defaultState.instrumentValues);
+  }, []);
 
   // Process strudel code based on instrument values
   // useMemo is used to prevent unnecessary recalculations, as without it

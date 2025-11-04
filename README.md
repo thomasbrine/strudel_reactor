@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# Strudel Reactor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based web application for the Strudel.cc live-coding music platform. 
 
-## Available Scripts
+## Video Demonstration
+TODO: include video link
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### Master Audio Controls
+- **Play/Stop Buttons**: Start and stop the Strudel audio
+- **Tempo Control**: Adjust the CPM (Cycles Per Minute)
+- **View Toggle**: Switch between Preprocessor (raw code) and REPL (processed strudel code)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Instrument Mixer
+- **Add/Remove Instruments**: Dynamically create instrument channels
+- **Enable/Disable**: Each instrument has a checkbox to mute/unmute it
+- **Instrument Naming**: Click an instrument name to rename it
+- **Expandable Panels**: Click to collapse/expand instrument panels
+   - **Add/Remove Effects**: Add multiple effects to each instrument
+   - **Effect Controls**: Each effect has a slider and typable value
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Code Preprocessor
+- Edit the raw Strudel code with preprocessing placeholders
+- Placeholders like `{instrument_effects}` are automatically replaced with effects
 
-### `npm test`
+### D3 Visualizer
+- Real-time graph of effect values from the playing audio
+- Dropdown menu to select which instrument and effect to visualize
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### JSON Save/Load
+- **Save**: Stores the entire project (code, tempo, all instrument settings) to browser local storage in json format
+- **Load**: Restores the last saved project state from browser local storage, and parses the json format
 
-### `npm run build`
+## Controls Documentation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+TODO: list all controls, their file/component location, and what they do?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation & Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository
+2. Install dependencies:
+     `npm install`
+3. Start the development server:
+   `npm start`
+4. Open http://localhost:3000 in your browser
 
-### `npm run eject`
+## Song Attribution
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+TODO
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+TODO: is this needed?
