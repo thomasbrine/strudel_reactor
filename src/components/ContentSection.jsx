@@ -8,7 +8,7 @@ import { D3Visualiser } from "./D3Visualiser";
  * Left column is for the content section.
  * Includes the code editor, REPL, and D3 visualizer
  */
-export function ContentSection({strudelCode, setStrudelCode, processedCode, editorRef}) {
+export function ContentSection({strudelCode, setStrudelCode, processedCode, editorRef, instruments}) {
 
     // Track the active code view, with the codePreprocessor as the default
     const [activeView, setActiveView] = useState('codePreprocessor');
@@ -48,8 +48,8 @@ export function ContentSection({strudelCode, setStrudelCode, processedCode, edit
                 </div>
             </div>
 
-            {/* Placeholder for the D3 visualizer */}
-            <D3Visualiser />
+            {/* D3 visualizer */}
+            <D3Visualiser instruments={instruments} />
             </div>
         </div>
     )

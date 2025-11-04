@@ -9,6 +9,9 @@ export function useInstruments() {
     // Array of instrument objects, each containing name, enabled state, and effects
     const [instrumentValues, setInstrumentValues] = useState([])
 
+    // id of the instrument that should have .log() added
+    const [selectedLoggingInstrument, setSelectedLoggingInstrument] = useState(null)
+
     // Add a new instrument with default values
     function addInstrument() {
         // Default instrument name based on number of instruments
@@ -129,6 +132,8 @@ export function useInstruments() {
     return {
         instrumentValues,
         setInstrumentValues,
+        selectedLoggingInstrument,
+        setSelectedLoggingInstrument,
         addInstrument,
         removeInstrument,
         changeInstrumentName,

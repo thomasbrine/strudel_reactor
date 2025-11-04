@@ -40,12 +40,17 @@ export default function StrudelDemo() {
         effectsString += `.${effect.name}(${effect.value})`;
       })
 
+      // Add .log() if this is the selected logging instrument
+      if (instruments.selectedLoggingInstrument === instrument.id) {
+        effectsString += `.log()`;
+      }
+
       code = code.replaceAll(`{${instrument.name}_effects}`, effectsString);
 
     });
 
     return code;
-  }, [strudelCode, cpm, instruments.instrumentValues]);
+  }, [strudelCode, cpm, instruments.instrumentValues, instruments.selectedLoggingInstrument]);
 
   // Start playback
   function handlePlay() {
@@ -135,6 +140,7 @@ export default function StrudelDemo() {
             setStrudelCode={setStrudelCode}
             processedCode={processedCode}
             editorRef={editorRef}
+            instruments={instruments}
           />
 
           {/*Right column for controls. (instrument toggles, effects, etc)*/}

@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 /**
  * Component that visualises values from the strudel logs using D3
  */
-export function D3Visualiser() {
+export function D3Visualiser({instruments}) {
 
     // Store effect values that are extracted from strudel logs
     const [EffectValuesForD3, setEffectValuesForD3] = useState([]);
@@ -18,6 +18,21 @@ export function D3Visualiser() {
 
     // Reference to the SVG element
     const svgRef = useRef(null);
+
+    // Get the currently logged instrument
+    const loggedInstrument = instruments.instrumentValues .find(
+        instrument => instrument.id === instruments.selectedLoggingInstrument
+    );
+
+    // Get effects currently on the logged instrument
+    const availableEffects = loggedInstrument ? loggedInstrument.effects : [];
+
+    // Update selected effect when logged instrument changes
+    useEffect(() => {
+        if (availableEffects.length > 0) {
+        setSelectedEffect(availableEffects[0].name);
+    }
+    }, [instruments.selectedLoggingInstrument]);
 
     // Subscribe to d3Data events and save strudel logs to logData
     useEffect(() => {
@@ -87,14 +102,48 @@ export function D3Visualiser() {
 
     return (
         <div className="card">
-            <div className="card-header d-flex justify-content-between">
+            <div className="card-header d-flex justify-content-between align-items-center">
+
                 <h5 className="mb-0">D3 Visualizer</h5>
-                <select value={selectedEffect} onChange={(e) => setSelectedEffect(e.target.value)}>
-                    <option value="gain">Gain</option>
-                    <option value="room">Room</option>
-                    <option value="cutoff">Cutoff (lpf)</option>
-                </select>
+
+                <div className="d-flex gap-2 align-items-center">
+                    {/* Instrument selector dropdown */}
+                    <div className="d-flex align-items-center gap-2">
+                        <label className="text-muted small">Instrument:</label>
+                        <select
+                            className="form-select form-select-sm"
+                            value={instruments.selectedLoggingInstrument}
+                            onChange={(e) => instruments.setSelectedLoggingInstrument(e.target.value)}
+                        >
+                            <option value="">None</option>
+                            {instruments.instrumentValues.map(instrument => (
+                                <option key={instrument.id} value={instrument.id}>
+                                    {instrument.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Effect selector dropdown that is only shown if instrument is selected */}
+                    {loggedInstrument && (
+                        <div className="d-flex align-items-center gap-2">
+                            <label className="text-muted small">Effect:</label>
+                            <select
+                                className="form-select form-select-sm"
+                                value={selectedEffect}
+                                onChange={(e) => setSelectedEffect(e.target.value)}
+                            >
+                                {availableEffects.map(effect => (
+                                    <option key={effect.id} value={effect.name}>
+                                        {effect.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+                </div>
             </div>
+            
             <div className="card-body">
                 <svg ref={svgRef} width="100%" height="300px"></svg>
             </div>
