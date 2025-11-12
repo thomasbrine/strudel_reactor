@@ -20,7 +20,7 @@ export function D3Visualiser({instruments}) {
     const svgRef = useRef(null);
 
     // Get the currently logged instrument
-    const loggedInstrument = instruments.instrumentValues .find(
+    const loggedInstrument = instruments.instrumentValues.find(
         instrument => instrument.id === instruments.selectedLoggingInstrument
     );
 
@@ -30,9 +30,9 @@ export function D3Visualiser({instruments}) {
     // Update selected effect when logged instrument changes
     useEffect(() => {
         if (availableEffects.length > 0) {
-        setSelectedEffect(availableEffects[0].name);
-    }
-    }, [instruments.selectedLoggingInstrument]);
+            setSelectedEffect(availableEffects[0].name);
+        }
+    }, [availableEffects, instruments.selectedLoggingInstrument]);
 
     // Subscribe to d3Data events and save strudel logs to logData
     useEffect(() => {
@@ -51,7 +51,11 @@ export function D3Visualiser({instruments}) {
     // Extract effect values whenever the log data updates
     useEffect(() => {
         const effectValues = logData.map(item => {
-            let regex = `\\s${selectedEffect}:([\\d.]+)`
+            let effectName = selectedEffect;
+            if (selectedEffect === "lpf") {
+                effectName = "cutoff";
+            }
+            let regex = `\\s${effectName}:([\\d.]+)`
             const match = item.match(new RegExp(regex));
             return match ? parseFloat(match[1]) : 0;
         });
@@ -69,11 +73,6 @@ export function D3Visualiser({instruments}) {
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
-        // Don't render if there is no data
-        if (!EffectValuesForD3 || EffectValuesForD3.length === 0) {
-            return;
-        }
-
         let barWidth = w / EffectValuesForD3.length;
 
         // Add padding to the maxValue for aesthetics
@@ -84,7 +83,9 @@ export function D3Visualiser({instruments}) {
             .domain([0, maxValue])
             .range([h, 0]);
 
-        let chartGroup = svg.append('g').classed('chartGroup', true);
+        let chartGroup = svg.append('g')
+            .classed('chartGroup', true)
+            .attr('transform', 'translate(40, 10)');
 
         // Draw the line chart
         chartGroup
@@ -98,13 +99,18 @@ export function D3Visualiser({instruments}) {
                     .y((d) => yScale(d))
                 );
 
+        // add y axis
+        let yAxis = d3.axisLeft(yScale);
+        chartGroup.append('g')
+                .classed('axis y', true)
+                .call(yAxis);
+
+
     }, [EffectValuesForD3])
 
     return (
         <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
-
-                <h5 className="mb-0">D3 Visualizer</h5>
 
                 <div className="d-flex gap-2 align-items-center">
                     {/* Instrument selector dropdown */}

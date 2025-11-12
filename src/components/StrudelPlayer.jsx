@@ -7,7 +7,6 @@ import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
-import { MdTerminal } from "react-icons/md";
 
 /**
  * Strudel REPL player component
@@ -39,7 +38,6 @@ export function StrudelPlayer({strudelCode, editorRef}) {
                 transpiler,
                 root: editorDiv.current,
                 drawTime,
-                onDraw: (haps, time) => drawPianoroll({haps, time, ctx: drawContext, drawTime, fold: 0}),
                 prebake: async () => {
                     initAudioOnFirstClick(); // needed to make the browser happy (don't await this here..)
                     const loadModules = evalScope(
