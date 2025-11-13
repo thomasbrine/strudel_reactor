@@ -8,10 +8,10 @@ import * as d3 from 'd3';
 export function D3Visualiser({instruments}) {
 
     // Store effect values that are extracted from strudel logs
-    const [EffectValuesForD3, setEffectValuesForD3] = useState([]);
+    const [effectValuesForD3, setEffectValuesForD3] = useState([]);
 
     // Selected effect value to be graphed
-    const [selectedEffect, setSelectedEffect] = useState("gain");
+    const [selectedEffect, setSelectedEffect] = useState("");
 
     // Store the raw strudel log data
     const [logData, setLogData] = useState([]);
@@ -31,8 +31,11 @@ export function D3Visualiser({instruments}) {
     useEffect(() => {
         if (availableEffects.length > 0) {
             setSelectedEffect(availableEffects[0].name);
+        } else {
+            setSelectedEffect("");
+            setEffectValuesForD3([]);
         }
-    }, [availableEffects, instruments.selectedLoggingInstrument]);
+    }, [instruments.selectedLoggingInstrument]);
 
     // Subscribe to d3Data events and save strudel logs to logData
     useEffect(() => {
@@ -50,12 +53,13 @@ export function D3Visualiser({instruments}) {
 
     // Extract effect values whenever the log data updates
     useEffect(() => {
+        let effectName = selectedEffect;
+        if (selectedEffect === "lpf") {
+            effectName = "cutoff";
+        }
+        let regex = `\\s${effectName}:([\\d.]+)`
+
         const effectValues = logData.map(item => {
-            let effectName = selectedEffect;
-            if (selectedEffect === "lpf") {
-                effectName = "cutoff";
-            }
-            let regex = `\\s${effectName}:([\\d.]+)`
             const match = item.match(new RegExp(regex));
             return match ? parseFloat(match[1]) : 0;
         });
@@ -65,7 +69,7 @@ export function D3Visualiser({instruments}) {
 
     // Render the D3 line chart whenever data updates
     useEffect(() => {
-        if (!svgRef.current) return;
+        if (!svgRef.current || effectValuesForD3.length === 0) return;
 
         const svg = d3.select(svgRef.current);
         svg.html("");
@@ -73,15 +77,15 @@ export function D3Visualiser({instruments}) {
         let w = svg.node().getBoundingClientRect().width;
         let h = svg.node().getBoundingClientRect().height;
 
-        let barWidth = w / EffectValuesForD3.length;
+        let barWidth = (w-40) / effectValuesForD3.length;
 
         // Add padding to the maxValue for aesthetics
-        const maxValue = d3.max(EffectValuesForD3) + d3.max(EffectValuesForD3)/20;
+        const maxValue = d3.max(effectValuesForD3) + d3.max(effectValuesForD3)/20;
 
         // Create scale for y-axis
         let yScale = d3.scaleLinear()
             .domain([0, maxValue])
-            .range([h, 0]);
+            .range([h - 20, 10]);
 
         let chartGroup = svg.append('g')
             .classed('chartGroup', true)
@@ -90,10 +94,10 @@ export function D3Visualiser({instruments}) {
         // Draw the line chart
         chartGroup
             .append('path')
-            .datum(EffectValuesForD3)
+            .datum(effectValuesForD3)
             .attr('fill', 'none')
-            .attr('stroke', 'black')
-            .attr('stroke-width', 4)
+            .attr('stroke', 'steelblue')
+            .attr('stroke-width', 3)
             .attr('d', d3.line()
                     .x((d, i) => i * barWidth)
                     .y((d) => yScale(d))
@@ -106,7 +110,7 @@ export function D3Visualiser({instruments}) {
                 .call(yAxis);
 
 
-    }, [EffectValuesForD3])
+    }, [effectValuesForD3])
 
     return (
         <div className="card">
@@ -150,9 +154,29 @@ export function D3Visualiser({instruments}) {
                 </div>
             </div>
             
-            <div className="card-body">
-                <svg ref={svgRef} width="100%" height="300px"></svg>
+            {/* D3 visualiser display */}
+            <div className="card-body" width="100%" height="520px">
+                {/* Display info if no data is available */}
+                {loggedInstrument && (
+                    <>
+                    {effectValuesForD3.length > 0 && (
+                        <svg ref={svgRef} width="100%" height="520px"></svg>
+                    )}
+                    {effectValuesForD3.length === 0 && (
+                        <div className="text-center text-muted py-5">
+                            No data available. Start playing to see visualization.
+                        </div>
+                    )}
+                    </>
+                )}
+                {/* Display info if no instrument is selected */}
+                {!loggedInstrument && (
+                    <div className="text-center text-muted py-5">
+                        No instrument selected. Select an instrument using the above dropdown.
+                    </div>
+                )}
             </div>
+
         </div>
     );
 }
