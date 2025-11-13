@@ -1,29 +1,6 @@
-import { attack, shape } from "@strudel/core";
 import { useState } from "react";
 import { MdArrowDropDown, MdArrowRight, MdClose, MdAdd } from "react-icons/md";
-
-// Default max values for common effects
-// Values from https://strudel.cc/learn/effects/
-const EFFECT_MAX_VALUES = {
-    lpf: 20000,
-    hpf: 20000,
-    coarse: 10,
-    crush: 16,
-    shape: 1,
-    distort: 15,
-    postgain: 2, 
-    delay: 1,
-    room: 1,
-    decay: 1,
-    gain: 1,    
-    default: 1
-};
-
-// Get the max value for an effect based on its name
-function getEffectMax(effectName) {
-    const normalizedName = effectName.toLowerCase().trim();
-    return EFFECT_MAX_VALUES[normalizedName] || EFFECT_MAX_VALUES.default;
-}
+import { EffectControls } from "./EffectControls";
 
 /**
  * Component for a single instrument mixer channel
@@ -39,13 +16,6 @@ export function InstrumentMixer({instrument, instruments}) {
         // Stop the click from triggering the parent div onClick as well
         event.stopPropagation();
         instruments.removeInstrument(instrument.id);
-    }
-
-    // Delete a specific effect from the instrument
-    function handleDeleteEffect(event, effectId) {
-        // Stop the click from triggering the parent div onClick as well
-        event.stopPropagation();
-        instruments.removeEffect(instrument.id, effectId);
     }
 
     return (
@@ -89,53 +59,15 @@ export function InstrumentMixer({instrument, instruments}) {
             <div className="p-2">
                 {/* Render effect controls for each effect */}
                 {instrument.effects.map(effect => {
-                    // Get the max value for this effect
-                    const effectMax = getEffectMax(effect.name);
-                    const step = effectMax / 20;
-
                     return (
-                    <div className="d-flex align-items-center gap-2 mb-2" key={effect.id}>
-                        {/* Input and display for effect name */}
-                        <input
-                            type="text"
-                            className="form-control form-control-sm"
-                            value={effect.name}
-                            style={{ width: '70px'}}
-                            onChange={(e) => instruments.changeEffectName(instrument.id, effect.id, e.target.value)}
-                        />
-
-                        {/* Slider for effect value */}
-                        <input className="form-range"
-                            type="range"
-                            min="0"
-                            max={effectMax}
-                            step={step}
-                            value={effect.value}
-                            onChange={(e) => instruments.updateEffectValue(instrument.id, effect.id, e.target.value)}
-                        />
-
-                        {/* Display an editable effect value */}
-                        <span className="badge bg-secondary" style={{maxWidth: '55px'}}>
-                            <input
-                                type="text"
-                                value={effect.value}
-                                style={{
-                                    width: '100%',
-                                    textAlign: 'center',
-                                    border: 'none',
-                                    background: 'transparent',
-                                    color: 'white',
-                                }}
-                                onChange={(e) => instruments.updateEffectValue(instrument.id, effect.id, e.target.value)}
+                            <EffectControls
+                                key={effect.id}
+                                effect={effect}
+                                instrumentId={instrument.id}
+                                updateEffectValue={instruments.updateEffectValue}
+                                removeEffect={instruments.removeEffect}
+                                changeEffectName={instruments.changeEffectName}
                             />
-                        </span>
-
-                        {/* Delete effect button */}
-                        <button
-                            className="btn btn-close btn-sm d-flex align-items-center"
-                            onClick={(e) => handleDeleteEffect(e, effect.id)}>
-                        </button>
-                    </div>
                     );
                 })}
 
