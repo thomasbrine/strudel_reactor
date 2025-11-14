@@ -5,7 +5,7 @@ import { InstrumentControls } from "./InstrumentControls";
  * Right column is for the controls section.
  * Includes the master controls and instrument channels
  */
-export function ControlsSection( {handlePlay, handleStop, cpm, setCpm, instruments }) {
+export function ControlsSection( {handlePlay, handleStop, cpm, setCpm, instruments}) {
     return (
     <div className="col-lg-4">
         <div className="d-flex flex-column gap-4">

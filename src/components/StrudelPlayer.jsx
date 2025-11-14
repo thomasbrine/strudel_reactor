@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
 import { StrudelMirror } from '@strudel/codemirror';
 import { evalScope } from '@strudel/core';
-import { drawPianoroll } from '@strudel/draw';
 import { initAudioOnFirstClick } from '@strudel/webaudio';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, webaudioOutput, registerSynthSounds } from '@strudel/webaudio';
 import { registerSoundfonts } from '@strudel/soundfonts';
-import console_monkey_patch, { getD3Data } from '../utils/console-monkey-patch';
+import console_monkey_patch from '../utils/console-monkey-patch';
 
 /**
  * Strudel REPL player component
@@ -26,10 +25,6 @@ export function StrudelPlayer({strudelCode, editorRef}) {
             console_monkey_patch();
             hasRun.current = true;
 
-            const canvas = document.getElementById('roll');
-            canvas.width = canvas.width * 2;
-            canvas.height = canvas.height * 2;
-            const drawContext = canvas.getContext('2d');
             const drawTime = [-2, 2];
 
             let strudelMirror = new StrudelMirror({

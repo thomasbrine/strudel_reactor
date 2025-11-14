@@ -62,20 +62,14 @@ export function EffectControls({effect, instrumentId, updateEffectValue, removeE
         />
 
         {/* Display an editable effect value */}
-        <span className="badge bg-secondary" style={{maxWidth: '55px'}}>
+        <div className="input-group input-group-sm" style={{maxWidth: '60px'}}>
             <input
                 type="text"
+                className="form-control form-control-sm text-center py-0"
                 value={internalValue}
-                style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    border: 'none',
-                    background: 'transparent',
-                    color: 'white',
-                }}
                 onChange={handleEditValue}
             />
-        </span>
+        </div>  
 
         {/* Button to delete effect */}
         <button

@@ -21,6 +21,13 @@ export default function StrudelDemo() {
     // Used to manage instrument state (values, effects, toggles)
     const instruments = useInstruments();
 
+    // Watch that cpm is not negative
+    useEffect(() => {
+        if (cpm <= 0) {
+            addAlert("danger", "Error: Cpm value must be positive!")
+        }
+    }, [cpm])
+
     // Load default state on first load
     useEffect(() => {
         setStrudelCode(defaultState.strudelCode);
@@ -63,6 +70,8 @@ export default function StrudelDemo() {
         const jsonString = getProjectDataString();
 
         localStorage.setItem("projectData", jsonString);
+
+        addAlert("success", "Success: Project data saved to local storage!")
     }
 
     // Load project data from local storage
@@ -75,20 +84,49 @@ export default function StrudelDemo() {
             setStrudelCode(projectData.strudelCode);
             setCpm(projectData.cpm);
             instruments.setInstrumentValues(projectData.instrumentValues);
+            addAlert("success", "Success: Project data loaded from local storage!")
+        }
+        else {
+            addAlert("info", "Error: No project data in local storage")
         }
     }
 
+    // Track alert state
+    const [alert, setAlert] = useState(null);
+
+    // Add an alert
+    function addAlert(type, message) {
+        setAlert({ type, message });
+    };
+
+    // Dismiss the alert
+    function dismissAlert() {
+        setAlert(null);
+    };
+
     // Automatically re-run when processed code changes and the strudel repl is playing
     useEffect(() => {
-        if (editorRef.current && editorRef.current.repl.state.started) {
-            editorRef.current.setCode(processedCode);
-            editorRef.current.evaluate();
+        try {
+            if (editorRef.current && editorRef.current.repl.state.started) {
+                editorRef.current.setCode(processedCode);
+                editorRef.current.evaluate();
+            }
+        } catch (error) {
+            addAlert("danger", `Strudel Error: ${error.message}`);
         }
     }, [processedCode]);
 
     return (
-        <div className="app">
+        <div className="app min-vh-100">
             <Header saveProject={saveProject} loadProject={loadProject} />
+            <div className="position-fixed top-0 start-50 translate-middle-x mt-3">
+                {alert && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`}>
+                    {alert.message}
+                    <button type="button" className="btn-close" onClick={dismissAlert}></button>
+                </div>
+                )}
+            </div>
 
             <div className="container-fluid py-4">
                 <div className="row g-4">
@@ -110,8 +148,6 @@ export default function StrudelDemo() {
                         instruments={instruments}
                     />
                 </div>
-
-                <canvas id="roll"></canvas>
             </div>
         </div>
     );

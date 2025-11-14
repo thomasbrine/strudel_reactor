@@ -79,13 +79,12 @@ export function D3Visualiser({instruments}) {
 
         let barWidth = (w-40) / effectValuesForD3.length;
 
-        // Add padding to the maxValue for aesthetics
-        const maxValue = d3.max(effectValuesForD3) + d3.max(effectValuesForD3)/20;
+        const maxValue = d3.max(effectValuesForD3);
 
         // Create scale for y-axis
         let yScale = d3.scaleLinear()
             .domain([0, maxValue])
-            .range([h - 20, 10]);
+            .range([h - 40, 10]);
 
         let chartGroup = svg.append('g')
             .classed('chartGroup', true)
@@ -155,24 +154,24 @@ export function D3Visualiser({instruments}) {
             </div>
             
             {/* D3 visualiser display */}
-            <div className="card-body" width="100%" height="520px">
+            <div className="card-body" style={{ height: "550px", width: "100%" }}>
                 {/* Display info if no data is available */}
                 {loggedInstrument && (
                     <>
                     {effectValuesForD3.length > 0 && (
-                        <svg ref={svgRef} width="100%" height="520px"></svg>
+                        <svg ref={svgRef} style={{ height: "100%", width: "100%" }}></svg>
                     )}
                     {effectValuesForD3.length === 0 && (
-                        <div className="text-center text-muted py-5">
-                            No data available. Start playing to see visualization.
+                        <div className="d-flex justify-content-center align-items-center h-100">
+                            <p className="text-muted">No data available. Start playing to see visualization.</p>
                         </div>
                     )}
                     </>
                 )}
                 {/* Display info if no instrument is selected */}
                 {!loggedInstrument && (
-                    <div className="text-center text-muted py-5">
-                        No instrument selected. Select an instrument using the above dropdown.
+                    <div className="d-flex justify-content-center align-items-center text-center text-muted h-100">
+                        <p>No instrument selected. Select an instrument using the above dropdown.</p>
                     </div>
                 )}
             </div>

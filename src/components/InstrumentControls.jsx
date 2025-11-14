@@ -59,7 +59,7 @@ export function InstrumentControls({ instruments }) {
                     <button 
                         className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center"
                         onClick={(e) => instruments.addInstrument()}>
-                        <MdAddCircleOutline className="me-1"/>Instrument Mixer Channel
+                        <MdAddCircleOutline className="me-1"/>Add Instrument Mixer Channel
                     </button>
                 </div>
             </div>
