@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getEffectMax } from "../utils/effectMaxValues";
 
 export function EffectControls({effect, instrumentId, updateEffectValue, removeEffect, changeEffectName}) {
@@ -36,6 +36,11 @@ export function EffectControls({effect, instrumentId, updateEffectValue, removeE
             updateEffectValue(instrumentId, effect.id, numValue);
         }
     }
+
+    // Ensure that the internal value is updated to the system's effect value
+    useEffect(() => {
+        setInternalValue(effect.value);
+    }, [effect.value])
 
 
     return (

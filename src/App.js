@@ -23,7 +23,7 @@ export default function StrudelDemo() {
 
     // Watch that cpm is not negative
     useEffect(() => {
-        if (cpm <= 0) {
+        if (cpm < 0) {
             addAlert("danger", "Error: Cpm value must be positive!")
         }
     }, [cpm])

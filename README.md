@@ -4,7 +4,7 @@ A React-based web application for the Strudel.cc live-coding music platform.
 
 ## Video Demonstration
 
-TODO: include video link
+https://mymailunisaedu-my.sharepoint.com/:v:/g/personal/britw002_mymail_unisa_edu_au/IQAMtbMxk_ZBSpYdoAzEi8MQAan34-Y2vYSm6v0_Ltqsh20?e=tUYCmc
 
 ## Features
 
