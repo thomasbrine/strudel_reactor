@@ -27,7 +27,7 @@ export function InstrumentControls({ instruments }) {
 
                 {/* Show help content if the user has clicked the help button */}
                 {showHelp && (
-                    <div className="alert alert-light alert-dismissible rounded-0 shadow-sm">
+                    <div className="alert alert-light alert-dismissible mb-3">
                         <button 
                             type="button" 
                             className="btn-close" 
@@ -59,7 +59,7 @@ export function InstrumentControls({ instruments }) {
                     <button 
                         className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center"
                         onClick={(e) => instruments.addInstrument()}>
-                        <MdAddCircleOutline className="me-1"/>Add Instrument Mixer Channel
+                        <MdAddCircleOutline className="me-2" size="18"/>Add Instrument Mixer Channel
                     </button>
                 </div>
             </div>

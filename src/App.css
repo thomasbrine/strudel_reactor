@@ -1,3 +1,22 @@
 .app {
-  background: linear-gradient(to bottom, #aaaaaa 0%, #a8bccf 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+  min-height: 100vh;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.border.rounded .border-bottom:hover {
+  background-color: #f8f9fa;
+}
+header {
+  border-bottom: 3px solid #0f3460;
+}
+
+h2 {
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

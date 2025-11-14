@@ -76,7 +76,7 @@ export function InstrumentMixer({instrument, instruments}) {
                 className="btn btn-outline-info btn-sm d-flex justify-content-center align-items-center"
                 onClick={() => instruments.addEffect(instrument.id)}
             >
-                <MdAdd className="me-2"/>Add Effect
+                <MdAdd className="me-2" size="16"/>Add Effect
             </button>
             </div>
             }

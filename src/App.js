@@ -128,7 +128,7 @@ export default function StrudelDemo() {
                 )}
             </div>
 
-            <div className="container-fluid py-4">
+            <div className="container-fluid py-4 px-3">
                 <div className="row g-4">
                     {/*Left column for content. (text, REPL, d3 graph)*/}
                     <ContentSection
